@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from googlesearch import search
 import shutil
+import time
 
 
 def print_center(s):
@@ -14,6 +15,46 @@ def googlesearch(query):
         if "https://www.bible.com/bible" in j and "-" not in j:
             result.append(j)
     return result[0]
+
+
+def reading(bookchoice, chapterchoice):
+    choice = bookchoice.title() + " " + str(chapterchoice)
+    print("\n\n")
+    print_center(choice + "\n\n")
+    choice += " bible.com"
+    url = googlesearch(choice)
+    html = requests.get(url)
+    soup = BeautifulSoup(html.text, "html.parser")
+    chapters = soup.findAll(
+        "span", attrs={"class": "ChapterContent_content__dkdqo"})
+    text = "	"
+    for chapter in chapters:
+        text += chapter.text
+        text += " "
+    text = text.replace("  ", " ")
+    print(text)
+    print("\n\n")
+    time.sleep(1)
+    while True:
+        again = input("Would you like to continue to the next chapter? (Y/N) ")
+        if (again == "Y" or again == "y") and chapterchoice == maximum:
+            print("\n")
+            print_center(f"This is the end of {bookchoice}")
+            print("\n")
+            nextbook = input("Would you like to move on to the next book? (Y/N) ")
+            if bookchoice.title() == "Revelation" and (nextbook == "Y" or nextbook == "y"):
+                print_center("Congratulations! You have finished reading the Bible!")
+            res = int(list(biblebooks.keys()).index(bookchoice.title()))
+            key = list(biblebooks)[res+1]
+            print(key)
+            reading(key, 1)
+        if again == "Y" or again == "y":
+            reading(bookchoice, chapterchoice + 1)
+        elif again == "N" or again == "n":
+            quit()
+        else:
+            print("Not a valid answer")
+
 
 
 biblebooks = {'Genesis': 50,
@@ -95,21 +136,5 @@ while True:
         print("Not a valid book/chapter combination.")
 
 
-choice = bookchoice.title() + " " + str(chapterchoice)
-print("\n\n")
-print_center(choice + "\n\n")
 
-choice += " bible.com"
-url = googlesearch(choice)
-html = requests.get(url)
-soup = BeautifulSoup(html.text, "html.parser")
-
-chapters = soup.findAll(
-    "span", attrs={"class": "ChapterContent_content__dkdqo"})
-
-text = "	"
-for chapter in chapters:
-    text += chapter.text
-    text += " "
-text = text.replace("  ", " ")
-print(text)
+reading(bookchoice, chapterchoice)
