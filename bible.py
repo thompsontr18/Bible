@@ -89,7 +89,7 @@ while True:
     bookchoice = input("> Which book would you like to read? ")
     chapterchoice = int(input("> Which chapter would you like to read? "))
     maximum = biblebooks.get(bookchoice.title())
-    if bookchoice.title() in biblebooks and chapterchoice > 0 and chapterchoice < maximum:
+    if bookchoice.title() in biblebooks and chapterchoice > 0 and chapterchoice <= maximum:
         break
     else:
         print("Not a valid book/chapter combination.")
