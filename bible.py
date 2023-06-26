@@ -43,7 +43,10 @@ def reading(bookchoice, chapterchoice):
             print("\n")
             nextbook = input("Would you like to move on to the next book? (Y/N) ")
             if bookchoice.title() == "Revelation" and (nextbook == "Y" or nextbook == "y"):
+                print("\n")
                 print_center("Congratulations! You have finished reading the Bible!")
+                print("\n")
+                quit()
             res = int(list(biblebooks.keys()).index(bookchoice.title()))
             key = list(biblebooks)[res+1]
             print(key)
