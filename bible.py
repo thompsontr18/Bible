@@ -42,6 +42,8 @@ def reading(bookchoice, chapterchoice):
             print_center(f"This is the end of {bookchoice}")
             print("\n")
             nextbook = input("Would you like to move on to the next book? (Y/N) ")
+            if nextbook == "n" or "N":
+                quit()
             if bookchoice.title() == "Revelation" and (nextbook == "Y" or nextbook == "y"):
                 print("\n")
                 print_center("Congratulations! You have finished reading the Bible!")
